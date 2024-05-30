@@ -6,6 +6,8 @@ import subprocess
 import time
 from typing import Dict
 
+#from multiprocessing import Process
+
 import openai
 import requests
 
@@ -24,6 +26,10 @@ except ImportError:
     openai_new_api = False  # old openai api version
 
 
+def pip_install(module):
+    os.popen("pip install {}".format(module), shell=True)
+    
+    
 class ChatEnvConfig:
     def __init__(self, clear_structure,
                  gui_design,
@@ -77,7 +83,16 @@ class ChatEnv:
         if "ModuleNotFoundError" in test_reports:
             for match in re.finditer(r"No module named '(\S+)'", test_reports, re.DOTALL):
                 module = match.group(1)
-                subprocess.Popen("pip install {}".format(module), shell=True).wait()
+                
+                if module == "sklearn":
+                    module = "scikit-learn"
+                
+#                p = Process(target=pip_install, args=(module,))
+#                p.start()
+#                p.join()
+                
+                subprocess.run("pip install {}".format(module), shell=True)
+                time.sleep(3)
                 log_visualize("**[CMD Execute]**\n\n[CMD] pip install {}".format(module))
 
     def set_directory(self, directory):
@@ -114,7 +129,7 @@ class ChatEnv:
             # check if we are on windows or linux
             if os.name == 'nt':
                 command = "cd {} && dir && python main.py".format(directory)
-                process = subprocess.Popen(
+                process = subprocess.run(
                     command,
                     shell=True,
                     stdout=subprocess.PIPE,
@@ -123,7 +138,7 @@ class ChatEnv:
                 )
             else:
                 command = "cd {}; ls -l; python3 main.py;".format(directory)
-                process = subprocess.Popen(command,
+                process = subprocess.run(command,
                                            shell=True,
                                            preexec_fn=os.setsid,
                                            stdout=subprocess.PIPE,
@@ -143,7 +158,7 @@ class ChatEnv:
             if return_code == 0:
                 return False, success_info + process.stderr.read().decode('utf-8')
             else:
-                error_output = process.stderr.read().decode('utf-8')
+                error_output = process.stderr.decode('utf-8')
                 if error_output:
                     if "Traceback".lower() in error_output.lower():
                         errs = error_output.replace(directory + "/", "")
@@ -319,35 +334,26 @@ class ChatEnv:
             # check if we are on windows or linux
             if os.name == 'nt':
                 command = "cd {} && dir && python main.py".format(directory)
-                process = subprocess.Popen(
+                process = subprocess.run(
                     command,
                     shell=True,
                     stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
+#                    stderr=subprocess.PIPE,
                     creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
                 )
+                time.sleep(3)
             else:
                 command = "cd {}; ls -l; python3 main.py;".format(directory)
-                process = subprocess.Popen(command,
+                process = subprocess.run(command,
                                            shell=True,
                                            preexec_fn=os.setsid,
                                            stdout=subprocess.PIPE,
-                                           stderr=subprocess.PIPE
+#                                           stderr=subprocess.PIPE
                                            )
-            time.sleep(3)
-            return_code = process.returncode
-            # Check if the software is still running
-            if process.poll() is None:
-                if "killpg" in dir(os):
-                    os.killpg(os.getpgid(process.pid), signal.SIGTERM)
-                else:
-                    os.kill(process.pid, signal.SIGTERM)
-                    if process.poll() is None:
-                        os.kill(process.pid, signal.CTRL_BREAK_EVENT)
-
-
-            output = process.stderr.read().decode('utf-8')
-            return output
+                time.sleep(3)
+#            return_code = process.returncode
+                output = process.stdout.decode('utf-8')
+                return output
         except subprocess.CalledProcessError as e:
             return True, f"Error: {e}"
         except Exception as ex:

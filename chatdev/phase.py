@@ -638,6 +638,7 @@ class Manual(Phase):
         super().__init__(**kwargs)
 
     def update_phase_env(self, chat_env):
+        
         output = chat_env.start()
         self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
                                "modality": chat_env.env_dict['modality'],
