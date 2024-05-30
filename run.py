@@ -74,8 +74,16 @@ parser.add_argument('--config', type=str, default="Default",
                     help="Name of config, which is used to load configuration under CompanyConfig/")
 parser.add_argument('--org', type=str, default="DefaultOrganization",
                     help="Name of organization, your software will be generated in WareHouse/name_org_timestamp")
-parser.add_argument('--task', type=str, default="Develop a basic Gomoku game.",
+
+
+# type=argparse.FileType('r')
+parser.add_argument('--task', type=argparse.FileType('r'), default="Develop a basic Gomoku game.",
                     help="Prompt of software")
+# parser.add_argument('--task', type=str, default="Develop a basic Gomoku game.",
+#                     help="Prompt of software")
+
+
+
 parser.add_argument('--name', type=str, default="Gomoku",
                     help="Name of software, your software will be generated in WareHouse/name_org_timestamp")
 parser.add_argument('--model', type=str, default="GPT_3_5_TURBO",
@@ -83,6 +91,12 @@ parser.add_argument('--model', type=str, default="GPT_3_5_TURBO",
 parser.add_argument('--path', type=str, default="",
                     help="Your file directory, ChatDev will build upon your software in the Incremental mode")
 args = parser.parse_args()
+
+if args.task:
+    task = args.task.read()
+    args.task.close()
+else:
+    task = "Develop a basic Gomoku game."
 
 # Start ChatDev
 
@@ -102,7 +116,7 @@ if openai_new_api:
 chat_chain = ChatChain(config_path=config_path,
                        config_phase_path=config_phase_path,
                        config_role_path=config_role_path,
-                       task_prompt=args.task,
+                       task_prompt=task,
                        project_name=args.name,
                        org_name=args.org,
                        model_type=args2type[args.model],
