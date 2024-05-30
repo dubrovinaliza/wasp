@@ -1,17 +1,5 @@
 {
     "chain": [{
-            "phase": "DemandAnalysis",
-            "phaseType": "SimplePhase",
-            "max_turn_step": -1,
-            "need_reflect": "True"
-        },
-        {
-            "phase": "LanguageChoose",
-            "phaseType": "SimplePhase",
-            "max_turn_step": -1,
-            "need_reflect": "True"
-        },
-        {
             "phase": "Coding",
             "phaseType": "SimplePhase",
             "max_turn_step": 1,
@@ -95,5 +83,5 @@
     "self_improve": "False",
     "incremental_develop": "False",
     "with_memory": "False",
-    "background_prompt": "ChatDev is a team of scientists writing articles powered by multiple intelligent agents, such as chief executive officer, chief human resources officer, chief product officer, chief technology officer, data scientist, etc, with a multi-agent organizational structure and the mission of 'changing the digital world through programming'."
+    "background_prompt": "ChatDev is a team of data scientists writing articles powered by multiple intelligent agents, with a multi-agent organizational structure and the mission of 'changing the digital world through programming'."
 }
