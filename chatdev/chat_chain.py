@@ -84,6 +84,9 @@ class ChatChain:
         self.role_prompts = dict()
         for role in self.config_role:
             self.role_prompts[role] = "\n".join(self.config_role[role])
+            
+        #init prompt code metrics
+        self.chat_env.env_dict['metrics'] = self.chat_env.start(True)
 
         # init log
         self.start_time, self.log_filepath = self.get_logfilepath()

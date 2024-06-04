@@ -238,9 +238,11 @@
       "\"{codes}\"",
       "Output: ",
       "\"{output}\"",
+      "Metrics: ",
+      "\"{metrics}\"",
       "Requirements:",
       "\"{requirements}\"",
-      "As the {assistant_role}, by using Markdown, you should write a manual.md file which is a detailed article about your code and results. Use the output {output} to find an accuracy of your new model. Use the accuracy for old model from the task. Compare your model and model from task on the accuracy and on the principle of operation."
+      "As the {assistant_role}, by using Markdown, you should write a manual.md file which is a detailed article about your code and results. Use the output {output} to find an accuracy of your new model. The accuracy for old model is {metrics}. Compare your model and model from task on the accuracy and on the principle of operation."
     ]
   }
 }
