@@ -640,7 +640,7 @@ class Manual(Phase):
     def update_phase_env(self, chat_env):
         
         output = chat_env.start()
-        metrics = chat_env.start(True)
+#        metrics = chat_env.start(True)
         self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
                                "modality": chat_env.env_dict['modality'],
                                "ideas": chat_env.env_dict['ideas'],
