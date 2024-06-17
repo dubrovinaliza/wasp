@@ -242,7 +242,7 @@
       "\"{metrics}\"",
       "Requirements:",
       "\"{requirements}\"",
-      "As the {assistant_role}, compare new machine learning model and model from task on the accuracy and on the principle of operation.Use the output {output} to find an accuracy of your new model. The accuracy for old model is {metrics}. Does the new model complete the task? Answer only yes or no. Return only one line using the format: \"<INFO> *\" where \"*\" is yes or no."
+      "As the {assistant_role}, compare new machine learning model and model from task on the accuracy and on the principle of operation.Use the output {output} to find an accuracy of your new model. The accuracy for old model is {metrics}. Does the new model complete the task? Answer only yes or no. Return only one word: yes or no."
     ]
   },
   "Manual": {

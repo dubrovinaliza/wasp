@@ -167,8 +167,15 @@ class ChatChain:
         Returns: None
 
         """
-        for phase_item in self.chain:
-            self.execute_step(phase_item)
+        todo = True
+        while todo:
+            for phase_item in self.chain:
+                if phase_item['phase'] != "Manual":
+                    self.execute_step(phase_item)
+            if "yes" in self.chat_env.env_dict['analysis']:
+                todo = False
+        self.execute_step(self.chain[-1])
+                    
 
     def get_logfilepath(self):
         """
