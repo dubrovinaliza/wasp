@@ -76,6 +76,7 @@ class ChatEnv:
             "error_summary": "",
             "test_reports": "",
             "output": "",
+            "analysis": "",
             "metrics": ""
         }
 
@@ -326,7 +327,7 @@ class ChatEnv:
 
         return images
 
-    def start(self, prompt = False) -> str:
+    def start(self, prompt = False, path = "") -> str:
         directory = self.env_dict['directory']
 
         success_info = "The software run successfully without errors."
@@ -335,7 +336,7 @@ class ChatEnv:
             # check if we are on windows or linux
             if os.name == 'nt':
                 if prompt == True:
-                    command = "python py.py".format(directory)
+                    command = "cd {} && dir && python main.py".format(path)
                 else:
                     command = "cd {} && dir && python main.py".format(directory)
                 process = subprocess.run(
@@ -348,7 +349,7 @@ class ChatEnv:
                 time.sleep(3)
             else:
                 if prompt == True:
-                    command = "python3 py.py;".format(directory)
+                    command = "cd {}; ls -l; python3 main.py;".format(path)
                 else:
                     command = "cd {}; ls -l; python3 main.py;".format(directory)
                 process = subprocess.run(command,
