@@ -76,6 +76,8 @@ class ChatEnv:
             "error_summary": "",
             "test_reports": "",
             "output": "",
+            "outputs": {},
+            "best_output": "",
             "analysis": "",
             "metrics": ""
         }
@@ -93,7 +95,7 @@ class ChatEnv:
 #                p.start()
 #                p.join()
                 
-                subprocess.run("pip install {}".format(module), shell=True)
+#                subprocess.run("pip install {}".format(module), shell=True)
                 time.sleep(3)
                 log_visualize("**[CMD Execute]**\n\n[CMD] pip install {}".format(module))
 
@@ -336,9 +338,9 @@ class ChatEnv:
             # check if we are on windows or linux
             if os.name == 'nt':
                 if prompt == True:
-                    command = "cd {} && dir && python main.py".format(path)
+                    command = "cd {} && python main.py".format(path)
                 else:
-                    command = "cd {} && dir && python main.py".format(directory)
+                    command = "cd {} && python main.py".format(directory)
                 process = subprocess.run(
                     command,
                     shell=True,
@@ -349,9 +351,9 @@ class ChatEnv:
                 time.sleep(3)
             else:
                 if prompt == True:
-                    command = "cd {}; ls -l; python3 main.py;".format(path)
+                    command = "cd {}; python3 main.py;".format(path)
                 else:
-                    command = "cd {}; ls -l; python3 main.py;".format(directory)
+                    command = "cd {}; python3 main.py;".format(directory)
                 process = subprocess.run(command,
                                            shell=True,
                                            preexec_fn=os.setsid,
@@ -369,3 +371,35 @@ class ChatEnv:
 
         return success_info
 
+
+    def get_last_commit_number(self):
+        
+        try:
+            # check if we are on windows or linux
+            if os.name == 'nt':
+
+                command = "cd {} && git log".format(self.env_dict['directory'])
+                process = subprocess.run(
+                    command,
+                    shell=True,
+                    stdout=subprocess.PIPE,
+                    creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
+                )
+                time.sleep(3)
+            else:
+                command = "cd {}; git log;".format(self.env_dict['directory'])
+                process = subprocess.run(command,
+                                           shell=True,
+                                           preexec_fn=os.setsid,
+                                           stdout=subprocess.PIPE
+                                           )
+                time.sleep(3)
+#            return_code = process.returncode
+                output = process.stdout.decode('utf-8')
+    
+                output_split = output.split()
+                return output_split[output_split.index("commit") + 1]
+        
+        except:
+            return False
+        

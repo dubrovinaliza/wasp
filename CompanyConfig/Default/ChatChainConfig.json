@@ -84,7 +84,7 @@
     ],
     "clear_structure": "True",
     "gui_design": "True",
-    "git_management": "False",
+    "git_management": "True",
     "web_spider": "False",
     "self_improve": "False",
     "incremental_develop": "False",

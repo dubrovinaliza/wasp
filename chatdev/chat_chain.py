@@ -167,14 +167,21 @@ class ChatChain:
         Returns: None
 
         """
-        todo = True
-        while todo:
+        n_iter = 3
+        for i in range(n_iter):
             for phase_item in self.chain:
-                if phase_item['phase'] != "Manual":
+                if phase_item['phase'] not in ["Manual", "Analysis"]:
                     self.execute_step(phase_item)
-            if "yes" in self.chat_env.env_dict['analysis']:
-                todo = False
-        self.execute_step(self.chain[-1])
+            output = self.chat_env.start()
+            commit = self.chat_env.get_last_commit_number()
+            self.chat_env.env_dict["outputs"].update({commit: output})
+        self.execute_step(self.chain[-2])
+        
+        print('\n\n####\n\n' +  self.chat_env.env_dict["analysis"] + '\n\n')
+        print(self.chat_env.env_dict["outputs"])
+        print('\n\n###\n\n')
+        
+#        self.execute_step(self.chain[-1])
                     
 
     def get_logfilepath(self):

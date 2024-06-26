@@ -570,7 +570,7 @@ class TestErrorSummary(Phase):
             pip_install_content = ""
             for match in re.finditer(r"No module named '(\S+)'", self.phase_env['test_reports'], re.DOTALL):
                 module = match.group(1)
-                pip_install_content += "{}\n```{}\n{}\n```\n".format("cmd", "bash", f"pip install {module}")
+#                pip_install_content += "{}\n```{}\n{}\n```\n".format("cmd", "bash", f"pip install {module}")
                 log_visualize(f"Programmer resolve ModuleNotFoundError by:\n{pip_install_content}\n")
             self.seminar_conclusion = "nothing need to do"
         else:
@@ -639,13 +639,12 @@ class Analysis(Phase):
 
     def update_phase_env(self, chat_env):
         
-        output = chat_env.start()
         self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
                                "modality": chat_env.env_dict['modality'],
                                "ideas": chat_env.env_dict['ideas'],
                                "language": chat_env.env_dict['language'],
                                "codes": chat_env.get_codes(),
-                               "output": output,
+                               "outputs": chat_env.env_dict['outputs'],
                                "metrics": chat_env.env_dict['metrics'],
                                "requirements": chat_env.get_requirements()})
 
@@ -660,15 +659,17 @@ class Manual(Phase):
 
     def update_phase_env(self, chat_env):
         
-        print('\n\n\n!!!' + chat_env.env_dict['output'] + '!!!\n\n\n')
-        output = chat_env.start()
+#        print('\n\n\n!!!' + chat_env.env_dict['output'] + '!!!\n\n\n')
+#        output = chat_env.start()
 #        metrics = chat_env.start(True)
+        chat_env.env_dict['best_output'] = chat_env.env_dict['output']
+    
         self.phase_env.update({"task": chat_env.env_dict['task_prompt'],
                                "modality": chat_env.env_dict['modality'],
                                "ideas": chat_env.env_dict['ideas'],
                                "language": chat_env.env_dict['language'],
                                "codes": chat_env.get_codes(),
-                               "output": output,
+                               "best_output": chat_env.env_dict['best_output'],
                                "analysis": chat_env.env_dict['analysis'],
                                "metrics": chat_env.env_dict['metrics'],
                                "requirements": chat_env.get_requirements()})

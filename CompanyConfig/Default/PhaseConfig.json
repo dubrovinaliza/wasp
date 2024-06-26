@@ -33,8 +33,8 @@
       "Programming Language: \"{language}\"",
       "Ideas:\"{ideas}\"",
       "We have decided to complete the task through a new model of machine learning with one file implemented via {language}. As the {assistant_role}, to satisfy the new user's demands, you should write one file main.py with code of better model and make sure that every detail of the architecture is, in the end, implemented as code. {gui}",
+      "As an example, use the code from the task. Load data only like it loaded in the task. Import dataset from sklearn.datasets. Import the necessary machine learning python libraries. Do not use subrocessing, multiprocessing or parallel processing.",
       "Think step by step and reason yourself to the right decisions to make sure we get it right.",
-      "As an example, use the code from the task. Load data only like it loaded in the task. Import the necessary machine learning python libraries. Do not use subrocessing, multiprocessing or parallel processing.",
       "Print to the stdout accuracy of the model on the test split.",
       "Then you will output the content of each file including complete code. Each file must strictly follow a markdown code block format, where the following tokens must be replaced such that \"FILENAME\" is the lowercase file name including the file extension, \"LANGUAGE\" in the programming language, \"DOCSTRING\" is a string literal specified in source code that is used to document a specific segment of code, and \"CODE\" is the original code:",
       "FILENAME",
@@ -236,13 +236,13 @@
       "Ideas: \"{ideas}\"",
       "Codes: ",
       "\"{codes}\"",
-      "Output: ",
-      "\"{output}\"",
+      "Outputs: ",
+      "\"{outputs}\"",
       "Metrics: ",
       "\"{metrics}\"",
       "Requirements:",
       "\"{requirements}\"",
-      "As the {assistant_role}, compare new machine learning model and model from task on the accuracy and on the principle of operation.Use the output {output} to find an accuracy of your new model. The accuracy for old model is {metrics}. Does the new model complete the task? Answer only yes or no. Return only one word: yes or no."
+      "As the {assistant_role}, compare machine learning models on the accuracy. Use the dictionary 'number of the commit': 'output of model with accuracy' - {outputs} to find the model with the best accuracy. Return only one word - the number of the commit for model with best accuracy."
     ]
   },
   "Manual": {
